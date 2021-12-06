@@ -1,4 +1,11 @@
 {
+    "Email verified at": "メール確認日時",
+    "Remember token": "継続ログイントークン",
+    "Created at": "登録日時",
+    "Updated at": "更新日時",
+    "Deleted at": "削除日時",
+    "Home": "ダッシュボード",
+
     "30 Days": "30日",
     "60 Days": "60日",
     "90 Days": "90日",
