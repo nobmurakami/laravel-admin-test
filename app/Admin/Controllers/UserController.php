@@ -3,11 +3,10 @@
 namespace App\Admin\Controllers;
 
 use App\Models\User;
-use Encore\Admin\Controllers\AdminController;
+//use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Show;
-use Encore\Admin\Layout\Content;
 
 class UserController extends AdminController
 {
@@ -29,84 +28,6 @@ class UserController extends AdminController
         'edit'   => '編集',
         'create' => '新規作成',
     ];
-
-    /**
-     * Index interface.
-     *
-     * @param Content $content
-     *
-     * @return Content
-     */
-    public function index(Content $content)
-    {
-        return $content
-            ->title($this->title())
-            ->description($this->description['index'] ?? trans('admin.list'))
-            ->breadcrumb(
-                ['text' => $this->title()]
-            )
-            ->body($this->grid());
-    }
-
-    /**
-     * Show interface.
-     *
-     * @param mixed   $id
-     * @param Content $content
-     *
-     * @return Content
-     */
-    public function show($id, Content $content)
-    {
-        return $content
-            ->title($this->title())
-            ->description($this->description['show'] ?? trans('admin.show'))
-            ->breadcrumb(
-                ['text' => $this->title(), 'url' => 'users'],
-                ['text' => $id],
-            )
-            ->body($this->detail($id));
-    }
-
-    /**
-     * Edit interface.
-     *
-     * @param mixed   $id
-     * @param Content $content
-     *
-     * @return Content
-     */
-    public function edit($id, Content $content)
-    {
-        return $content
-            ->title($this->title())
-            ->description($this->description['edit'] ?? trans('admin.edit'))
-            ->breadcrumb(
-                ['text' => $this->title(), 'url' => 'users'],
-                ['text' => $id],
-                ['text' => $this->description['edit'] ?? __('admin.edit')],
-            )
-            ->body($this->form()->edit($id));
-    }
-
-    /**
-     * Create interface.
-     *
-     * @param Content $content
-     *
-     * @return Content
-     */
-    public function create(Content $content)
-    {
-        return $content
-            ->title($this->title())
-            ->description($this->description['create'] ?? trans('admin.create'))
-            ->breadcrumb(
-                ['text' => $this->title(), 'url' => 'users'],
-                ['text' => $this->description['create'] ?? __('admin.create')],
-            )
-            ->body($this->form());
-    }
 
     /**
      * Make a grid builder.
