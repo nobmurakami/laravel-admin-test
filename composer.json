@@ -12,6 +12,7 @@
         "doctrine/dbal": "2.13.6",
         "encore/laravel-admin": "^1.8",
         "fideloper/proxy": "^4.4",
+        "laravel-lang/lang": "~5.0",
         "laravel/framework": "^6.20.26",
         "laravel/tinker": "^2.5"
     },
