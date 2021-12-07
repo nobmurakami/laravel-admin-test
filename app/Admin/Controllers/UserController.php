@@ -3,6 +3,7 @@
 namespace App\Admin\Controllers;
 
 use App\Models\User;
+use App\Admin\Actions\User\ImportUser;
 //use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
@@ -50,6 +51,10 @@ class UserController extends AdminController
             $filter->disableIdFilter();
             $filter->like('name', __('Name'));
             $filter->like('email', __('Email'));
+        });
+
+        $grid->tools(function (Grid\Tools $tools) {
+            $tools->append(new ImportUser());
         });
 
         return $grid;
