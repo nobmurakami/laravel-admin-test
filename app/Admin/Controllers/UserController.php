@@ -4,6 +4,7 @@ namespace App\Admin\Controllers;
 
 use App\Models\User;
 use App\Admin\Actions\User\ImportUser;
+use Carbon\Carbon;
 //use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
@@ -42,6 +43,9 @@ class UserController extends AdminController
         $grid->column('id', __('ID'))->sortable();
         $grid->column('name', __('Name'));
         $grid->column('email', __('Email'));
+        $grid->column('profile.birth_date', __('Birth date'))->sortable();
+        $grid->column('profile.age', __('Age'));
+        $grid->column('profile.gender', __('Gender'))->using([1 => __('Male'), 2 => __('Female')]);
         $grid->column('email_verified_at', __('Email verified at'));
         $grid->column('created_at', __('Created at'));
         $grid->column('updated_at', __('Updated at'));
