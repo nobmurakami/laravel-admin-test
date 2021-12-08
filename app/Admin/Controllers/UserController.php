@@ -3,12 +3,13 @@
 namespace App\Admin\Controllers;
 
 use App\Models\User;
-use App\Admin\Actions\User\ImportUser;
-use Carbon\Carbon;
 //use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Show;
+use App\Admin\Actions\User\ImportUser;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends AdminController
 {
@@ -45,7 +46,16 @@ class UserController extends AdminController
         $grid->column('email', __('Email'));
         $grid->column('profile.birth_date', __('Birth date'))->sortable();
         $grid->column('profile.age', __('Age'));
-        $grid->column('profile.gender', __('Gender'))->using([1 => __('Male'), 2 => __('Female')]);
+
+        $genderOptions = [
+             0 => '',
+             1 => __('Male'),
+             2 => __('Female'),
+             9 => __('Other'),
+        ];
+        $grid->column('profile.gender', __('Gender'))
+             ->using($genderOptions);
+
         $grid->column('email_verified_at', __('Email verified at'));
         $grid->column('created_at', __('Created at'));
         $grid->column('updated_at', __('Updated at'));
@@ -95,11 +105,35 @@ class UserController extends AdminController
     {
         $form = new Form(new User());
 
+        $form->display('id', 'ID');
         $form->text('name', __('Name'));
         $form->email('email', __('Email'));
-        $form->datetime('email_verified_at', __('Email verified at'))->default(date('Y-m-d H:i:s'));
+        $form->date('profile.birth_date', __('Birth date'))
+             ->format('YYYY-MM-DD');
+
+        $genderOptions = [
+             0 => '',
+             1 => __('Male'),
+             2 => __('Female'),
+             9 => __('Other'),
+        ];
+        $form->select('profile.gender', __('Gender'))
+             ->options($genderOptions);
+
+        $form->datetime('email_verified_at', __('Email verified at'))
+             ->default(date('Y-m-d H:i:s'));
         $form->password('password', __('Password'));
-        $form->text('remember_token', __('Remember token'));
+        $form->ignore('remember_token');
+
+        $form->saving(function (Form $form) {
+            $modelPwd = $form->model()->password;
+
+            if (filled($form->password) && Hash::check($form->password, $modelPwd) === false) {
+                $form->password = Hash::make($form->password);
+            } else {
+                $form->password = $modelPwd;
+            }
+        });
 
         return $form;
     }
